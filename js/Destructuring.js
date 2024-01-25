@@ -36,3 +36,6 @@ console.log(a, b);
 
 let [e, f, g, h] = ary;
 console.log(e, f, g, h);
+
+
+//주석 추가
