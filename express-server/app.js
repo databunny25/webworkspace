@@ -1,6 +1,8 @@
 const fs = require('fs');
-const express = require('express');
+const express = require('express'); // express는 모듈
+const userRouter = require('./user.js'); //얘는 우리가 임의로 만든 파일...not모듈...경로 찾아가야 함
 const app = express();
+
 
 // 미들웨어
 //-- Request Data Process
@@ -8,6 +10,9 @@ const app = express();
 app.use(express.json({
     limit : '50mb'
 }))
+// app.use -> 전체 라우터 적용
+// app.METHOD -> 특정 라우터에 적용
+
 
 // application/x-www-form-urlencoded
 app.use(express.urlencoded({extended : false}))
@@ -52,6 +57,10 @@ const getData = (target, where)=>{
     return data;
 }
 
+// app.js가 가진 라우팅에 대해서 목적에 따라 파일을 분리하고 세분화해서 매핑시킴(실행하면 app.js가 가진 라우팅을 실행하는 것이다)
+// app.js의 파일 길이를 너무 늘리지 말것!
+app.use('/user', userRouter); //라우터와 매핑시킴...
+
 // listen : 서버 실행
 app.listen(3000, ()=>{
     //console.log('http://localhost:3000');
@@ -80,6 +89,7 @@ app.get('/posts/:id', (req, res)=>{
 app.post('/posts', (req, res) => {
     let data = req.body;
     console.log('등록', data);
+    dmlData('posts', {method : 'post', data}) //덜 적었다ㅠㅠ
     res.json(data);
 });
 
@@ -118,6 +128,7 @@ app.get('/profile', (req, res)=>{
 
 
 // 검색을 포함하는 경우 -> QueryString
+// list[0].id=100&list[0].name=Hong&...
 app.get('/search', (req, res)=>{
     let keywords = req.query;
     console.log('검색조건 구성', keywords);
