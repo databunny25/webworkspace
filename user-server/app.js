@@ -16,13 +16,13 @@ app.get('/users', async (req, res)=>{
     let list = await mysql.executeQuery('userList');
     res.json(list);
 })
-
+// 단건조회
 app.get('/users/:id', async (req, res) => {
     let userId = req.params.id;
     let info = (await mysql.executeQuery('userInfo',userId))[0];
     res.json(info);
 })
-
+// 등록
 app.post('/users', async (req, res)=>{
     let data = req.body.param;  
     let result = await mysql.executeQuery('userInsert', data);
