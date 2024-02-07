@@ -11,7 +11,7 @@ app.use(express.urlencoded({extended : false}));
 app.listen(3000, ()=>{
     console.log('Server Start, http://localhost:3000');
 });
-
+// 목록
 app.get('/users', async (req, res)=>{
     let list = await mysql.executeQuery('userList');
     res.json(list);
@@ -28,7 +28,7 @@ app.post('/users', async (req, res)=>{
     let result = await mysql.executeQuery('userInsert', data);
     res.json(result);
 })
-
+// 수정 all
 app.put('/users/:id', async ( req, res ) => {
     let result = await updateAll(req);
     res.json(result);
@@ -59,7 +59,7 @@ function selectedInfo(obj){
     }
     return newObj;
 };
-
+// 이름, 성별, 나이 수정
 async function updateInfo(request){
     let data = [ ...getInfo(request.body.param) , request.params.id]; // 컬럼 : user_name, user_gender, user_age
     let result = await mysql.executeQuery('userUpdateInfo', data);
